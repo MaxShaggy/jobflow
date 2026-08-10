@@ -54,3 +54,29 @@
     @apply font-sans;
   }
 }
+
+.board-scrollbar::-webkit-scrollbar {
+  height: 8px;
+}
+
+.board-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  margin-inline: 16px;
+}
+
+.board-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--surface-3);
+  border-radius: 9999px;
+}
+
+.board-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-pink);
+}
+
+.hidden-scrollbar::-webkit-scrollbar {
+  width: 0;
+}
+
+.hidden-scrollbar {
+  scrollbar-width: none;
+}
