@@ -1,21 +1,29 @@
+import { ApplicationProps } from "./Board";
+import { Card } from "./Card";
+import { DraggableCard } from "./DraggableCard";
+import { useDroppable } from "@dnd-kit/core";
 interface ColumnProps {
   title: string;
+  cardsByStatus: ApplicationProps[];
+  id: string;
 }
 
-export function Column({ title }: ColumnProps) {
+export function Column({ title, cardsByStatus, id }: ColumnProps) {
+  const { setNodeRef } = useDroppable({ id });
+
   return (
-    <div className="shrink-0 w-64 p-2 rounded-md bg-surface-3 h-full flex flex-col gap-2">
+    <div ref={setNodeRef} className="shrink-0 w-64 p-2 rounded-md bg-surface-3 max-h-full flex flex-col gap-2">
       <h2 className="text-center">{title}</h2>
-      <div className="flex-1 overflow-y-auto min-h-0 hidden-scrollbar">
-        <div className="h-20 bg-surface-1 mb-2 rounded">1</div>
-        <div className="h-20 bg-surface-1 mb-2 rounded">2</div>
-        <div className="h-20 bg-surface-1 mb-2 rounded">3</div>
-        <div className="h-20 bg-surface-1 mb-2 rounded">1</div>
-        <div className="h-20 bg-surface-1 mb-2 rounded">2</div>
-        <div className="h-20 bg-surface-1 mb-2 rounded">3</div>
-        <div className="h-20 bg-surface-1 mb-2 rounded">1</div>
-        <div className="h-20 bg-surface-1 mb-2 rounded">2</div>
-        <div className="h-20 bg-surface-1 mb-2 rounded">3</div>
+      <div className="flex-1 overflow-y-auto min-h-0 hidden-scrollbar flex flex-col gap-2">
+        {cardsByStatus.map(card => (
+          <DraggableCard
+            key={card.id}
+            id={card.id}
+            company={card.company}
+            position={card.position}
+            date={card.date}
+          />
+        ))}
       </div>
     </div>
   )
