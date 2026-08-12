@@ -12,11 +12,12 @@ interface DraggableCardProps {
 }
 
 export function DraggableCard({ id, company, position, date }: DraggableCardProps) {
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({ id });
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({ id });
 
   const style = {
     transform: CSS.Translate.toString(transform),
     zIndex: transform ? 50 : undefined,
+    opacity: isDragging ? 0 : 1, 
   };
 
   return (
