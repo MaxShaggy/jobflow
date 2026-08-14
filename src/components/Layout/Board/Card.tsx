@@ -6,11 +6,19 @@ interface CardProps {
 
 export function Card({ company, position, date }: CardProps) {
   return (
-    <div className="flex flex-col gap-2 p-2 border border-solid border-text-2 bg-surface-2 rounded cursor-pointer">
-      <h2 className="truncate">{company}</h2>
-      <span className="text-sm text-text-2 truncate">{position}</span>
-      <div className="text-right">
-        <span className="text-sm text-text-2">{date}</span>
+    <div className="group flex flex-col justify-between p-5 rounded-2xl bg-white/[0.05] backdrop-blur-md border border-white/10 transition-colors duration-300 ease-out hover:bg-white/[0.08] hover:border-white/20 hover:drop-shadow-[0_0_20px_rgba(99,102,241,0.3)] select-none">
+      <div className="flex flex-col gap-1">
+        <h3 className="font-bold text-lg text-white tracking-wide truncate group-hover:text-white">
+          {company}
+        </h3>
+        <p className="text-sm font-medium text-cyan-400/90 truncate group-hover:text-cyan-300">
+          {position}
+        </p>
+      </div>
+      <div className="mt-4 text-right">
+        <span className="text-xs font-medium text-white/40 tracking-wider">
+          {date}
+        </span>
       </div>
     </div>
   );

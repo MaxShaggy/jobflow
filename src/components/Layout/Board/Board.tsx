@@ -100,16 +100,24 @@ export function Board() {
     <DndContext id="board-dnd-context" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
       <div className="flex items-start gap-4 p-4 overflow-x-auto board-scrollbar h-full min-h-0">
         {
-          columns.map(col => {
+          columns.map((col, index) => {
             const cardsByStatus = getApplicationsByStatus(col.id);
             return (
-              <Column key={col.id} title={col.title} cardsByStatus={cardsByStatus} id={col.id} />
+              <div key={col.id} className="flex h-full">
+                <Column title={col.title} cardsByStatus={cardsByStatus} id={col.id} />
+                {index < columns.length - 1 && (
+                  <div className="w-px bg-white/10 h-full ml-4" />
+                )}
+              </div>
             )
-          })}
+          })
+        }
       </div>
       <DragOverlay>
         {neededCard && (
-          <Card company={neededCard.company} position={neededCard.position} date={neededCard.date} />
+          <div className="cursor-grabbing">
+            <Card company={neededCard.company} position={neededCard.position} date={neededCard.date} />
+          </div>
         )}
       </DragOverlay>
     </DndContext>

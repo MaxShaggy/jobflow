@@ -16,7 +16,7 @@ const navItems: NavItem[] = [
 ];
 
 export function Sidebar() {
-  return <aside className="bg-surface-1 rounded-2xl p-6 w-64 flex flex-col gap-10">
+  return <aside className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 w-64 flex flex-col gap-10 transition-all duration-300 hover:bg-white/15 hover:border-white/40 hover:shadow-[0_0_40px_rgba(99,102,241,0.25)]">
     <Image
       src="/images/logo.png"
       alt="JobFlow"

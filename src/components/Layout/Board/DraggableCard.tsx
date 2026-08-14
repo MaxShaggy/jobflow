@@ -21,7 +21,12 @@ export function DraggableCard({ id, company, position, date }: DraggableCardProp
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={isDragging ? "cursor-grabbing" : "cursor-grab"}
+      {...listeners}
+      {...attributes}>
       <Card company={company} position={position} date={date}/>
     </div>
   );
