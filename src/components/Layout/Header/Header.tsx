@@ -1,7 +1,7 @@
 "use client"
 
 import { IconButton } from "@/components/ui/icon-button";
-import { AddApplicationButton } from "./AddApplicationButton";
+import { ApplicationForm } from "./ApplicationForm";
 import { SearchInput } from "./SearchInput";
 import { Moon, Sun } from "lucide-react"
 import { useState } from "react";
@@ -12,7 +12,7 @@ export function Header() {
 
   return (
     <header className="flex gap-6 justify-between items-center p-4">
-      <AddApplicationButton />
+      <ApplicationForm />
       <SearchInput />
       <div className="flex gap-4">
         <div className="flex gap-2">
