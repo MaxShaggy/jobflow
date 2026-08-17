@@ -65,13 +65,21 @@ export function ApplicationForm() {
       console.log(error);
     } else {
       setIsOpen(false);
+      setLevel(null);
     }
 
     setIsSubmitting(false);
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => {
+        setIsOpen(open);
+        if (!open) {
+          setLevel(null);
+        }
+      }}>
       <DialogTrigger render={<AddApplicationButton />} />
       <DialogContent className="sm:max-w-sm gradient-bg border-2 border-white/40 shadow-[0_0_40px_rgba(99,102,241,0.25)]">
         <form onSubmit={handleSubmit}>
@@ -151,10 +159,10 @@ export function ApplicationForm() {
             </Field>
           </FieldGroup>
           <DialogFooter>
-            <DialogClose render={<Button variant="outline" className="border-2 border-white/20 bg-white/[0.04] backdrop-blur-sm hover:bg-white/15 hover:text-cyan-400/70 hover:border-white/40 transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-cyan-400/70">Cancel</Button>} />
+            <DialogClose render={<Button variant="outline" className="w-22 border-2 border-white/20 bg-white/[0.04] backdrop-blur-sm hover:bg-white/15 hover:text-cyan-400/70 hover:border-white/40 transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-cyan-400/70">Cancel</Button>} />
             <Button
               type="submit"
-              className="border-2 border-white/20 bg-white/[0.04] backdrop-blur-sm hover:bg-white/15 hover:text-cyan-400/70 hover:border-white/40 transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-cyan-400/70"
+              className="w-22 border-2 border-white/20 bg-white/[0.04] backdrop-blur-sm hover:bg-white/15 hover:text-cyan-400/70 hover:border-white/40 transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-cyan-400/70"
               disabled={isSubmitting}
             >
               {isSubmitting ? (
