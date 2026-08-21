@@ -2,7 +2,12 @@
 
 import { useState } from "react";
 import { Column } from "./Column";
-import { DndContext, DragOverlay, type DragEndEvent, type DragStartEvent } from "@dnd-kit/core";
+import {
+  DndContext,
+  DragOverlay,
+  type DragEndEvent,
+  type DragStartEvent
+} from "@dnd-kit/core";
 import { Card } from "./Card";
 
 type ApplicationStatus = "applications" | "follow-up" | "interview" | "rejected" | "offer";
@@ -28,40 +33,12 @@ const columns: ColumnProps[] = [
   { id: "offer", title: "Offer" },
 ]
 
-const mockApplications: ApplicationProps[] = [
-  {
-    id: "1",
-    company: "MacPaw",
-    position: "Junior Front-end Engineer",
-    date: "06.08",
-    status: "applications",
-  },
-  {
-    id: "2",
-    company: "Solvexus",
-    position: "React Developer",
-    date: "30.07",
-    status: "follow-up",
-  },
-  {
-    id: "3",
-    company: "IDEAL",
-    position: "JavaScript Frontend Developer",
-    date: "28.07",
-    status: "applications",
-  },
-  {
-    id: "4",
-    company: "Axels",
-    position: "Junior Frontend React Developer",
-    date: "28.07",
-    status: "applications",
-  },
-];
+interface BoardProps {
+  applications: ApplicationProps[];
+}
 
-export function Board() {
-  const [applications, setApplications] = useState<ApplicationProps[]>(mockApplications);
-
+export function Board({ applications: initialApplications }: BoardProps) {
+  const [applications, setApplications] = useState<ApplicationProps[]>(initialApplications);
   const [activeDragCard, setActiveDragCard] = useState<string | null>(null);
 
   function getApplicationsByStatus(status: ApplicationStatus) {

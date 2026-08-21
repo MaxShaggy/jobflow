@@ -28,6 +28,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Loader } from "lucide-react";
+import { toast } from "@/components/ui/toast";
 
 const items = [
   { label: "Junior", value: "junior" },
@@ -40,7 +41,7 @@ export function ApplicationForm() {
   const labelStyles = "transition-colors duration-300 group-focus-within:text-cyan-400/70";
 
   const [level, setLevel] = useState<"Junior" | "Middle" | "Senior" | null>(null);
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -62,7 +63,11 @@ export function ApplicationForm() {
       })
 
     if (error) {
-      console.log(error);
+      toast.add({
+        title: "Failed to send data",
+        description: error.message,
+        type: "error",
+      });
     } else {
       setIsOpen(false);
       setLevel(null);
@@ -155,7 +160,8 @@ export function ApplicationForm() {
                 name="notes"
                 maxLength={250}
                 placeholder="e.g. Job notes, key requirements, or your thoughts..."
-                className={`${inputStyles} resize - none mb-2`} />
+                className={`${inputStyles} resize-none mb-2`}
+              />
             </Field>
           </FieldGroup>
           <DialogFooter>

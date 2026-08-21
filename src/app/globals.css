@@ -12,6 +12,7 @@
   --color-text-2: var(--text-2);
   --color-accent-blue: var(--accent-blue);
   --color-accent-cyan: var(--accent-cyan);
+  --color-destructive: var(--destructive);
 
   --color-foreground: var(--foreground);
   --color-ring: var(--ring);
@@ -22,6 +23,7 @@
   --text-2: #9f9fa2;
   --accent-blue: #4a90d9;
   --accent-cyan: #22d3ee;
+  --destructive: #ef4444;
 
   --foreground: var(--text-1);
   --ring: var(--accent-blue);
