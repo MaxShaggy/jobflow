@@ -29,6 +29,7 @@ import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Loader } from "lucide-react";
 import { toast } from "@/components/ui/toast";
+import { useApplications } from "@/components/Common";
 
 const items = [
   { label: "Junior", value: "junior" },
@@ -43,6 +44,7 @@ export function ApplicationForm() {
   const [level, setLevel] = useState<"Junior" | "Middle" | "Senior" | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { applications, setApplications } = useApplications();
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -61,6 +63,7 @@ export function ApplicationForm() {
         status: "applications",
         notes: formData.get("notes")
       })
+      .select()
 
     if (error) {
       toast.add({
@@ -69,8 +72,13 @@ export function ApplicationForm() {
         type: "error",
       });
     } else {
+      const newCard = data[0];
+      const newDate = new Date(newCard.date).toLocaleDateString('uk-UA');
+      const formattedCard = { ...newCard, date: newDate };
+
       setIsOpen(false);
       setLevel(null);
+      setApplications([...applications, formattedCard]);
     }
 
     setIsSubmitting(false);

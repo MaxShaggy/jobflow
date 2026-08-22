@@ -9,6 +9,7 @@ import {
   type DragStartEvent
 } from "@dnd-kit/core";
 import { Card } from "./Card";
+import { useApplications } from "@/components/Common";
 
 type ApplicationStatus = "applications" | "follow-up" | "interview" | "rejected" | "offer";
 
@@ -33,12 +34,8 @@ const columns: ColumnProps[] = [
   { id: "offer", title: "Offer" },
 ]
 
-interface BoardProps {
-  applications: ApplicationProps[];
-}
-
-export function Board({ applications: initialApplications }: BoardProps) {
-  const [applications, setApplications] = useState<ApplicationProps[]>(initialApplications);
+export function Board() {
+  const { applications, setApplications } = useApplications()
   const [activeDragCard, setActiveDragCard] = useState<string | null>(null);
 
   function getApplicationsByStatus(status: ApplicationStatus) {
