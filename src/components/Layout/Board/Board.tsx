@@ -10,8 +10,10 @@ import {
 } from "@dnd-kit/core";
 import { Card } from "./Card";
 import { useApplications } from "@/components/Common";
+import { createClient } from "@/lib/supabase/client";
+import { toast } from "@/components/ui/toast";
 
-type ApplicationStatus = "applications" | "follow-up" | "interview" | "rejected" | "offer";
+export type ApplicationStatus = "applications" | "follow-up" | "interview" | "rejected" | "offer";
 
 interface ColumnProps {
   id: ApplicationStatus;
@@ -23,6 +25,7 @@ export interface ApplicationProps {
   company: string;
   position: string;
   date: string;
+  updated_date: string | null;
   status: ApplicationStatus;
 }
 
@@ -44,15 +47,19 @@ export function Board() {
     return applicationsByStatus;
   }
 
-  function handleDragEnd(event: DragEndEvent) {
+  const supabase = createClient();
+
+
+  async function handleDragEnd(event: DragEndEvent) {
     if (!event.over) {
       return;
     }
 
     const overId = event.over.id;
+    const prevApplications = applications;
 
-    setApplications(prevApplications => {
-      return prevApplications.map(app => {
+    setApplications(prevApp => {
+      return prevApp.map(app => {
         if (app.id === event.active.id) {
           return { ...app, status: overId as ApplicationStatus }
         } else {
@@ -61,8 +68,23 @@ export function Board() {
       })
     })
 
+    const { error } = await supabase
+      .from("applications")
+      .update({ status: overId, updated_date: new Date() })
+      .eq('id', event.active.id)
+
+    if (error) {
+      setApplications(prevApplications)
+      toast.add({
+        title: "Failed to change column",
+        description: error.message,
+        type: "error",
+      });
+    }
+
     setActiveDragCard(null);
   }
+
 
   function handleDragStart(event: DragStartEvent) {
     setActiveDragCard(event.active.id as string)
@@ -90,7 +112,13 @@ export function Board() {
       <DragOverlay>
         {neededCard && (
           <div className="cursor-grabbing">
-            <Card company={neededCard.company} position={neededCard.position} date={neededCard.date} />
+            <Card
+              company={neededCard.company}
+              position={neededCard.position}
+              date={neededCard.date}
+              status={neededCard.status}
+              updatedDate={neededCard.updated_date}
+            />
           </div>
         )}
       </DragOverlay>

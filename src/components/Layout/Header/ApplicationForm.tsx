@@ -30,6 +30,7 @@ import { createClient } from "@/lib/supabase/client";
 import { Loader } from "lucide-react";
 import { toast } from "@/components/ui/toast";
 import { useApplications } from "@/components/Common";
+import { normalizeText } from "@/lib/utils";
 
 const items = [
   { label: "Junior", value: "junior" },
@@ -56,12 +57,12 @@ export function ApplicationForm() {
     const { data, error } = await supabase
       .from("applications")
       .insert({
-        company: formData.get("company"),
-        position: formData.get("position"),
+        company: normalizeText(formData.get("company") as string),
+        position: normalizeText(formData.get("position") as string),
         link: formData.get("link"),
         level,
         status: "applications",
-        notes: formData.get("notes")
+        notes: formData.get("notes"),
       })
       .select()
 

@@ -29,11 +29,15 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const { data, error } = await getApplications();
 
   const initialApplications = data
-    ? data.map(card => {
-        const newDate = new Date(card.date).toLocaleDateString('uk-UA');
-        return { ...card, date: newDate };
-      })
-    : [];
+  ? data.map(card => {
+      const newDate = new Date(card.date).toLocaleDateString('uk-UA');
+      const newUpdatedDate = card.updated_date
+  ? new Date(card.updated_date).toLocaleDateString('uk-UA')
+  : null;
+      
+      return { ...card, date: newDate, updated_date: newUpdatedDate };
+    })
+  : [];
 
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>

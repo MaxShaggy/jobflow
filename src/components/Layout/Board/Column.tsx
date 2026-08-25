@@ -1,5 +1,4 @@
 import { ApplicationProps } from "./Board";
-import { Card } from "./Card";
 import { DraggableCard } from "./DraggableCard";
 import { useDroppable } from "@dnd-kit/core";
 interface ColumnProps {
@@ -22,6 +21,8 @@ export function Column({ title, cardsByStatus, id }: ColumnProps) {
             company={card.company}
             position={card.position}
             date={card.date}
+            updatedDate={card.updated_date}
+            status={card.status}
           />
         ))}
       </div>
