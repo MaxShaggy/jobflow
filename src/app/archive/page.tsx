@@ -15,6 +15,8 @@ export default function Archive() {
             company={rejApp.company}
             position={rejApp.position}
             date={rejApp.date}
+            status={rejApp.status}
+            updatedDate={rejApp.updated_date}
           />
         </div>
       ))}
