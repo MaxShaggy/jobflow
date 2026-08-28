@@ -1,4 +1,5 @@
 import { ApplicationStatus } from "./Board";
+import { cn } from "@/lib/utils";
 interface CardProps {
   company: string;
   position: string;
@@ -24,15 +25,10 @@ export function Card({ company, position, date, updatedDate, status }: CardProps
             ICONS
           </span>
         </div>
-        <div className="flex gap-2 justify-between">
-          <div className="flex flex-col">
-            <span className="text-xs tracking-wider">
-              Applied
-            </span>
-            <span className="text-xs text-white/40 tracking-wider">
-              {date}
-            </span>
-          </div>
+        <div className={cn("flex gap-2", {
+          "justify-between": status !== "applications",
+            "justify-end": status === "applications",
+        })}>
           {status !== "applications" && (
             <div className="flex flex-col">
             <span className="text-xs tracking-wider">
@@ -42,7 +38,15 @@ export function Card({ company, position, date, updatedDate, status }: CardProps
               {updatedDate}
             </span>
           </div>
-          ) }         
+          )}
+          <div className="flex flex-col">
+            <span className="text-xs tracking-wider">
+              Applied
+            </span>
+            <span className="text-xs text-white/40 tracking-wider">
+              {date}
+            </span>
+          </div>
         </div>
       </div>
     </div>

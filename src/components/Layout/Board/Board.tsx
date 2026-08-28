@@ -12,6 +12,7 @@ import { Card } from "./Card";
 import { useApplications } from "@/components/Common";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "@/components/ui/toast";
+import { updateApplicationStatus } from "@/lib/supabase/updateApplicationStatus";
 
 export type ApplicationStatus = "applications" | "follow-up" | "interview" | "rejected" | "offer";
 
@@ -42,7 +43,20 @@ export function Board() {
   const [activeDragCard, setActiveDragCard] = useState<string | null>(null);
 
   function getApplicationsByStatus(status: ApplicationStatus) {
-    const applicationsByStatus = applications.filter(app => app.status === status);
+    const applicationsByStatus = applications
+      .filter(app => app.status === status)
+      .toSorted((a, b) => {
+        const dateStringA = status === "applications" ? a.date : a.updated_date!;
+        const dateStringB = status === "applications" ? b.date : b.updated_date!;
+
+        const [dayA, monthA, yearA] = dateStringA.split('.');
+        const [dayB, monthB, yearB] = dateStringB.split('.');
+
+        const dateA = new Date(+yearA, +monthA - 1, +dayA);
+        const dateB = new Date(+yearB, +monthB - 1, +dayB);
+
+        return dateB.getTime() - dateA.getTime();
+      });
 
     return applicationsByStatus;
   }
@@ -56,31 +70,8 @@ export function Board() {
     }
 
     const overId = event.over.id;
-    const prevApplications = applications;
 
-    setApplications(prevApp => {
-      return prevApp.map(app => {
-        if (app.id === event.active.id) {
-          return { ...app, status: overId as ApplicationStatus }
-        } else {
-          return app;
-        }
-      })
-    })
-
-    const { error } = await supabase
-      .from("applications")
-      .update({ status: overId, updated_date: new Date() })
-      .eq('id', event.active.id)
-
-    if (error) {
-      setApplications(prevApplications)
-      toast.add({
-        title: "Failed to change column",
-        description: error.message,
-        type: "error",
-      });
-    }
+    updateApplicationStatus(event.active.id as string, overId as ApplicationStatus, applications, setApplications)
 
     setActiveDragCard(null);
   }
