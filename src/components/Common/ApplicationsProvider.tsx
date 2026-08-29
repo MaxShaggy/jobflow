@@ -8,12 +8,12 @@ interface ApplicationsProviderProps {
   initialApplications: ApplicationProps[];
 }
 
-interface ValueProps{
+interface ApplicationsValueProps{
   applications: ApplicationProps[];
   setApplications: React.Dispatch<React.SetStateAction<ApplicationProps[]>>;
 }
 
-const ApplicationsContext = createContext<ValueProps | null>(null);
+const ApplicationsContext = createContext<ApplicationsValueProps | null>(null);
 
 export function useApplications() {
   const context = useContext(ApplicationsContext);

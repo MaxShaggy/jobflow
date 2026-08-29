@@ -13,6 +13,7 @@ import { useApplications } from "@/components/Common";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "@/components/ui/toast";
 import { updateApplicationStatus } from "@/lib/supabase/updateApplicationStatus";
+import { useSearch } from "@/components/Common/SearchProvider";
 
 export type ApplicationStatus = "applications" | "follow-up" | "interview" | "rejected" | "offer";
 
@@ -41,25 +42,32 @@ const columns: ColumnProps[] = [
 export function Board() {
   const { applications, setApplications } = useApplications()
   const [activeDragCard, setActiveDragCard] = useState<string | null>(null);
+  const { searchQuery } = useSearch();
 
   function getApplicationsByStatus(status: ApplicationStatus) {
-    const applicationsByStatus = applications
-      .filter(app => app.status === status)
-      .toSorted((a, b) => {
-        const dateStringA = status === "applications" ? a.date : a.updated_date!;
-        const dateStringB = status === "applications" ? b.date : b.updated_date!;
+  const filtered = applications.filter(app => app.status === status);
 
-        const [dayA, monthA, yearA] = dateStringA.split('.');
-        const [dayB, monthB, yearB] = dateStringB.split('.');
+  const sorted = filtered.toSorted((a, b) => {
+    const dateStringA = status === "applications" ? a.date : a.updated_date!;
+    const dateStringB = status === "applications" ? b.date : b.updated_date!;
 
-        const dateA = new Date(+yearA, +monthA - 1, +dayA);
-        const dateB = new Date(+yearB, +monthB - 1, +dayB);
+    const [dayA, monthA, yearA] = dateStringA.split('.');
+    const [dayB, monthB, yearB] = dateStringB.split('.');
 
-        return dateB.getTime() - dateA.getTime();
-      });
+    const dateA = new Date(+yearA, +monthA - 1, +dayA);
+    const dateB = new Date(+yearB, +monthB - 1, +dayB);
 
-    return applicationsByStatus;
-  }
+    return dateB.getTime() - dateA.getTime();
+  });
+
+  const limited = status === "rejected" ? sorted.slice(0, 7) : sorted;
+
+  const searched = limited.filter(app =>
+    app.company.toLowerCase().includes(searchQuery.toLowerCase().trim())
+  );
+
+  return searched;
+}
 
   const supabase = createClient();
 

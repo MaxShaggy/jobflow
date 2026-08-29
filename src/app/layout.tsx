@@ -8,6 +8,7 @@ import { Toaster } from "@/components/ui/toast";
 import { ApplicationsProvider } from "@/components/Common";
 import { getApplications } from "@/lib/supabase/queries";
 import { ErrorToast } from "@/components/Common";
+import { SearchProvider } from "@/components/Common/SearchProvider";
 
 
 const geistSans = Geist({
@@ -29,15 +30,15 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const { data, error } = await getApplications();
 
   const initialApplications = data
-  ? data.map(card => {
+    ? data.map(card => {
       const newDate = new Date(card.date).toLocaleDateString('uk-UA');
       const newUpdatedDate = card.updated_date
-  ? new Date(card.updated_date).toLocaleDateString('uk-UA')
-  : null;
-      
+        ? new Date(card.updated_date).toLocaleDateString('uk-UA')
+        : null;
+
       return { ...card, date: newDate, updated_date: newUpdatedDate };
     })
-  : [];
+    : [];
 
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
@@ -45,11 +46,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <Sidebar />
         <div className="flex-1 flex flex-col gap-6 min-w-0 min-h-0">
           <ApplicationsProvider initialApplications={initialApplications}>
-            <ErrorToast error={error} />
-            <Header />
-            <main className="flex-1 min-w-0 min-h-0">
-              {children}
-            </main>
+            <SearchProvider>
+              <ErrorToast error={error} />
+              <Header />
+              <main className="flex-1 min-w-0 min-h-0">
+                {children}
+              </main>
+            </SearchProvider>
           </ApplicationsProvider>
         </div>
         <Toaster />
