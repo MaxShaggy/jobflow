@@ -6,9 +6,10 @@ import { Sidebar } from "@/components/Layout/Sidebar";
 import { Header } from "@/components/Layout/Header";
 import { Toaster } from "@/components/ui/toast";
 import { ApplicationsProvider } from "@/components/Common";
-import { getApplications } from "@/lib/supabase/queries";
+import { getApplications, getCompanies } from "@/lib/supabase/queries";
 import { ErrorToast } from "@/components/Common";
 import { SearchProvider } from "@/components/Common/SearchProvider";
+import { CompaniesProvider } from "@/components/Common/CompaniesProvider";
 
 
 const geistSans = Geist({
@@ -27,10 +28,11 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const { data, error } = await getApplications();
+  const { data: applicationsData, error: applicationsError } = await getApplications();
+  const { data: companiesData, error: companiesError } = await getCompanies();
 
-  const initialApplications = data
-    ? data.map(card => {
+  const initialApplications = applicationsData
+    ? applicationsData.map(card => {
       const newDate = new Date(card.date).toLocaleDateString('uk-UA');
       const newUpdatedDate = card.updated_date
         ? new Date(card.updated_date).toLocaleDateString('uk-UA')
@@ -40,18 +42,23 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     })
     : [];
 
+  const initialCompanies = companiesData ? companiesData : [];
+
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="h-screen flex gap-6 p-6 gradient-bg">
+      <body className="h-screen py-4 pl-4 flex gap-2 gradient-bg">
         <Sidebar />
         <div className="flex-1 flex flex-col gap-6 min-w-0 min-h-0">
           <ApplicationsProvider initialApplications={initialApplications}>
             <SearchProvider>
-              <ErrorToast error={error} />
-              <Header />
-              <main className="flex-1 min-w-0 min-h-0">
-                {children}
-              </main>
+              <CompaniesProvider initialCompanies={initialCompanies}>
+                <ErrorToast error={applicationsError} />
+                <ErrorToast error={companiesError} />
+                <Header />
+                <main className="flex-1 min-w-0 min-h-0">
+                  {children}
+                </main>
+              </CompaniesProvider>
             </SearchProvider>
           </ApplicationsProvider>
         </div>

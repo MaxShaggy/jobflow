@@ -10,8 +10,6 @@ import {
 } from "@dnd-kit/core";
 import { Card } from "./Card";
 import { useApplications } from "@/components/Common";
-import { createClient } from "@/lib/supabase/client";
-import { toast } from "@/components/ui/toast";
 import { updateApplicationStatus } from "@/lib/supabase/updateApplicationStatus";
 import { useSearch } from "@/components/Common/SearchProvider";
 
@@ -23,7 +21,7 @@ interface ColumnProps {
 }
 
 export interface ApplicationProps {
-  id: string;
+  id: number;
   company: string;
   position: string;
   date: string;
@@ -41,7 +39,7 @@ const columns: ColumnProps[] = [
 
 export function Board() {
   const { applications, setApplications } = useApplications()
-  const [activeDragCard, setActiveDragCard] = useState<string | null>(null);
+  const [activeDragCard, setActiveDragCard] = useState<number  | null>(null);
   const { searchQuery } = useSearch();
 
   function getApplicationsByStatus(status: ApplicationStatus) {
@@ -69,9 +67,6 @@ export function Board() {
   return searched;
 }
 
-  const supabase = createClient();
-
-
   async function handleDragEnd(event: DragEndEvent) {
     if (!event.over) {
       return;
@@ -79,21 +74,21 @@ export function Board() {
 
     const overId = event.over.id;
 
-    updateApplicationStatus(event.active.id as string, overId as ApplicationStatus, applications, setApplications)
+    updateApplicationStatus(event.active.id as number, overId as ApplicationStatus, applications, setApplications)
 
     setActiveDragCard(null);
   }
 
 
   function handleDragStart(event: DragStartEvent) {
-    setActiveDragCard(event.active.id as string)
+    setActiveDragCard(event.active.id as number)
   }
 
   const neededCard = applications.find(app => app.id === activeDragCard)
 
   return (
     <DndContext id="board-dnd-context" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-      <div className="flex items-start gap-4 p-4 overflow-x-auto board-scrollbar h-full min-h-0">
+      <div className="flex items-start gap-4 p-2 overflow-x-auto board-scrollbar h-full min-h-0">
         {
           columns.map((col, index) => {
             const cardsByStatus = getApplicationsByStatus(col.id);

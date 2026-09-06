@@ -65,7 +65,7 @@ function DialogContent({
             render={
               <Button
                 variant="ghost"
-                className="absolute top-2 right-2 text-white/70 hover:text-cyan-400/70 hover:bg-white/10 transition-colors duration-300"
+                className="absolute top-2 right-2 text-white/70 hover:text-cyan-400/70 hover:bg-white/10 transition-colors duration-300 cursor-pointer"
                 size="icon-sm"
               />
             }
@@ -138,7 +138,7 @@ function DialogDescription({
     <DialogPrimitive.Description
       data-slot="dialog-description"
       className={cn(
-        "text-sm text-muted-foreground *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground",
+        "text-sm text-muted-foreground *:[a]:underline-offset-3 *:[a]:hover:text-foreground",
         className
       )}
       {...props}

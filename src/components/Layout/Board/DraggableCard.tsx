@@ -6,7 +6,7 @@ import { Card } from "./Card";
 import { ApplicationStatus } from "./Board";
 
 interface DraggableCardProps {
-  id: string;
+  id: number;
   company: string;
   position: string;
   date: string;

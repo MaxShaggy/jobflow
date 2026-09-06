@@ -6,7 +6,7 @@ import { toast } from "@/components/ui/toast";
 const supabase = createClient();
 
 export async function updateApplicationStatus(
-  id: string,
+  id: number,
   newStatus: ApplicationStatus,
   applications: ApplicationProps[],
   setApplications: React.Dispatch<React.SetStateAction<ApplicationProps[]>>,

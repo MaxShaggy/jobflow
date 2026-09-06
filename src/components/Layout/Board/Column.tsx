@@ -1,10 +1,10 @@
-import { ApplicationProps } from "./Board";
+import { ApplicationProps, ApplicationStatus } from "./Board";
 import { DraggableCard } from "./DraggableCard";
 import { useDroppable } from "@dnd-kit/core";
 interface ColumnProps {
   title: string;
   cardsByStatus: ApplicationProps[];
-  id: string;
+  id: ApplicationStatus;
 }
 
 export function Column({ title, cardsByStatus, id }: ColumnProps) {
