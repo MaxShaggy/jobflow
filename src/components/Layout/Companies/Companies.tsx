@@ -7,13 +7,12 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import { CompanyLogo } from "./CompanyLogo";
 import { Trophy, FlagTriangleRight } from 'lucide-react';
 import { useState } from "react";
 import { CompanyCard } from "./CompanyCard";
 import { CompanyDialog } from "./CompanyDialog";
 
-export interface CompanyProps {
+export interface Company {
   id: number;
   name: string;
   website: string | null;
@@ -47,7 +46,7 @@ export function Companies() {
       )}
 
       <Tabs defaultValue="top_rated" className="px-4 h-full flex flex-col min-h-0">
-        <TabsList className="flex items-center gap-2 mb-4 p-2 bg-white/10 text-white border border-transparent hover:border-white/40 hover:shadow-[0_0_12px_rgba(34,211,238,0.4)] transition-border-color duration-300">
+        <TabsList className="flex items-center gap-2 mb-4 p-2 bg-white/10 border border-transparent hover:border-white/40 hover:shadow-[0_0_12px_rgba(34,211,238,0.4)] transition-border-color duration-300">
           <TabsTrigger
             value="top_rated"
             className="h-auto w-28 flex items-center gap-1 cursor-pointer transition-color duration-300 data-active:bg-white/15 group">
@@ -71,12 +70,7 @@ export function Companies() {
         <TabsContent value="red_flag">
           <ul className="grid grid-cols-[repeat(auto-fill,_minmax(min(250px,_100%),_1fr))] gap-x-4 gap-y-2">
             {companiesRedFlag.map(company => (
-              <li
-                key={company.id}
-                className="p-1"
-              >
-                {company.name}
-              </li>
+              <CompanyCard key={company.id} company={company} setSelectedCompanyID={setSelectedCompanyID} />
             ))}
           </ul>
         </TabsContent>

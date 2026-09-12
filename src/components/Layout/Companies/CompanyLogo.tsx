@@ -18,8 +18,8 @@ function getLogo(url: string) {
 export function CompanyLogo({ website, name }: CompanyLogoProps) {
   const [hasError, setHasError] = useState(false);
 
-  return hasError ? (
-    <div className="w-6 h-6 flex items-center justify-center rounded-full bg-text-2 text-destructive text-lg font-bold">
+  return hasError || !website ? (
+    <div className="w-6 h-6 flex items-center justify-center shrink-0 rounded-full bg-text-2 text-destructive text-lg font-bold">
       {name.charAt(0).toUpperCase()}
     </div>
   ) : (

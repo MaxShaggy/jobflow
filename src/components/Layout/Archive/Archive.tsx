@@ -14,7 +14,7 @@ export default function Archive() {
     .filter(app => app.company.toLowerCase().includes(searchQuery.toLowerCase()));
 
   return (
-    <div className="flex flex-wrap gap-4 px-4">
+    <div className="flex flex-wrap content-start gap-4 px-4 h-full min-h-0 overflow-y-auto hidden-scrollbar">
       {rejectedApplications.map(rejApp => (
         <div key={rejApp.id} className="basis-[250px] relative group">
           <Card
