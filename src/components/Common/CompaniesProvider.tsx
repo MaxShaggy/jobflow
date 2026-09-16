@@ -1,16 +1,16 @@
 "use client"
 
 import { createContext, useContext, useState } from 'react'
-import { CompanyProps } from '../Layout/Companies';
+import { Company } from '../Layout/Companies';
 
 interface CompaniesProviderProps {
   children: React.ReactNode;
-  initialCompanies: CompanyProps[];
+  initialCompanies: Company[];
 }
 
 interface CompaniesValueProps {
-  companies: CompanyProps[];
-  setCompanies: React.Dispatch<React.SetStateAction<CompanyProps[]>>
+  companies: Company[];
+  setCompanies: React.Dispatch<React.SetStateAction<Company[]>>
 }
 
 export function useCompanies() {

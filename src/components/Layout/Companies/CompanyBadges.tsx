@@ -15,7 +15,7 @@ export function CompanyBadges({ applicationCompany }: CompanyBadgesProps) {
     const companyWords = company.name.toLowerCase().split(" ");
     const applicationWords = applicationCompany.toLowerCase().split(" ");
 
-    const nameMatches = companyWords.some(companyWord =>
+    const nameMatches = companyWords.some((companyWord: string) =>
       applicationWords.includes(companyWord)
     );
 
@@ -26,7 +26,7 @@ export function CompanyBadges({ applicationCompany }: CompanyBadgesProps) {
     const companyWords = company.name.toLowerCase().split(" ");
     const applicationWords = applicationCompany.toLowerCase().split(" ");
 
-    const nameMatches = companyWords.some(companyWord =>
+    const nameMatches = companyWords.some((companyWord: string) =>
       applicationWords.includes(companyWord)
     );
 
