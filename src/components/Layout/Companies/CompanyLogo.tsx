@@ -19,7 +19,7 @@ export function CompanyLogo({ website, name }: CompanyLogoProps) {
   const [hasError, setHasError] = useState(false);
 
   return hasError || !website ? (
-    <div className="w-6 h-6 flex items-center justify-center shrink-0 rounded-full bg-text-2 text-destructive text-lg font-bold">
+    <div className="w-6 h-6 flex items-center justify-center shrink-0 rounded-full bg-text-2 text-destructive text-lg font-bold leading-none">
       {name.charAt(0).toUpperCase()}
     </div>
   ) : (
