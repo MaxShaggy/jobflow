@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
+import { createClient } from "@/lib/supabase/server";
 import { Sidebar } from "@/components/Layout/Sidebar";
 import { Header } from "@/components/Layout/Header";
 import { Toaster } from "@/components/ui/toast";
@@ -10,6 +11,7 @@ import { getApplications, getCompanies } from "@/lib/supabase/queries";
 import { ErrorToast } from "@/components/Common";
 import { SearchProvider } from "@/components/Common/SearchProvider";
 import { CompaniesProvider } from "@/components/Common/CompaniesProvider";
+import { AuthDialog } from "@/components/Auth/AuthDialog";
 
 
 const geistSans = Geist({
@@ -28,8 +30,24 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const { data: applicationsData, error: applicationsError } = await getApplications();
-  const { data: companiesData, error: companiesError } = await getCompanies();
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  console.log("USER:", user);
+
+  let applicationsData = null;
+  let applicationsError = null;
+  let companiesData = null;
+  let companiesError = null;
+
+  if (user) {
+    const applicationsResult = await getApplications();
+    applicationsData = applicationsResult.data;
+    applicationsError = applicationsResult.error;
+
+    const companiesResult = await getCompanies();
+    companiesData = companiesResult.data;
+    companiesError = companiesResult.error;
+  }
 
   const initialApplications = applicationsData
     ? applicationsData.map(card => {
@@ -47,9 +65,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="h-screen py-4 pl-4 flex gap-2 gradient-bg">
-        <Sidebar />
+        <Sidebar nickname={user?.user_metadata?.nickname} />
         <div className="flex-1 flex flex-col gap-6 min-w-0 min-h-0">
-          <ApplicationsProvider initialApplications={initialApplications}>
+          <ApplicationsProvider
+            key={user?.id ?? "guest"}
+            initialApplications={initialApplications}
+          >
             <SearchProvider>
               <CompaniesProvider initialCompanies={initialCompanies}>
                 <ErrorToast error={applicationsError} />
@@ -62,6 +83,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             </SearchProvider>
           </ApplicationsProvider>
         </div>
+        {!user && <AuthDialog />}
         <Toaster />
       </body>
     </html>
