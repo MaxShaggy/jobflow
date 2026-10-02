@@ -14,6 +14,7 @@
   --color-accent-cyan: var(--accent-cyan);
   --color-destructive: var(--destructive);
   --color-secondary-yellow: var(--secondary-yellow);
+  --color-link-hover: var(--link-hover);
 
   --color-foreground: var(--foreground);
   --color-ring: var(--ring);
@@ -26,6 +27,7 @@
   --accent-cyan: #22d3ee;
   --secondary-yellow: #ffff00;
   --destructive: #ef4444;
+  --link-hover: #3bec64;
 
   --foreground: var(--text-1);
   --ring: var(--accent-blue);
@@ -46,6 +48,7 @@ input:-webkit-autofill:focus {
   -webkit-text-fill-color: #fff;
   caret-color: #fff;
   transition: background-color 9999s ease-in-out 0s;
+  box-shadow: 0 0 0 1000px rgb(74, 69, 120) inset;
 }
 
 body > [data-base-ui-portal] {

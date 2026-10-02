@@ -13,6 +13,8 @@ import { useActionState } from "react";
 import { signIn, signUp } from "@/lib/supabase/auth";
 import { Mail, Key, User } from "lucide-react";
 import Image from "next/image";
+import { FieldError } from "@/components/Common/FieldError";
+import { ClearableInput } from "../Common";
 
 type AuthMode = "login" | "signup";
 
@@ -22,10 +24,10 @@ const faceClass =
 const formClass = "flex flex-col gap-5";
 
 const fieldIconClass =
-  "pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 transition-colors duration-300 group-focus-within:text-cyan-300";
+  "pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 transition-colors duration-300 group-focus-within:text-cyan-300 z-10";
 
 const inputClass =
-  "pl-10 bg-white/10 placeholder:text-white/60 border-2 border-white/20 focus-visible:border-cyan-400/70 focus-visible:ring-0";
+  "pl-10 bg-[rgb(74,69,120)] placeholder:text-white/60 border-2 border-white/20 focus-visible:border-cyan-400/70 focus-visible:ring-0";
 
 const submitClass =
   "w-2/3 rounded-xl uppercase text-white bg-gradient-to-r from-cyan-500 via-sky-600 to-indigo-400 bg-[length:200%_auto] bg-left hover:bg-right border border-white/20 shadow-[0_0_20px_rgba(34,211,238,0.35)] hover:shadow-[0_0_22px_rgba(34,211,238,0.55)] hover:scale-[1.02] will-change-transform active:scale-[0.98] transition-[background-position,box-shadow,transform] duration-300 ease-out flex items-center gap-2.5 cursor-pointer";
@@ -37,23 +39,32 @@ export function AuthDialog() {
   const [signInState, signInAction, isSignInPending] = useActionState(signIn, {
     error: null,
     message: null,
+    field: null,
   });
   const [signUpState, signUpAction, isSignUpPending] = useActionState(signUp, {
     error: null,
     message: null,
+    field: null,
   });
+
+  const nicknameError = signUpState.field === "nickname" ? signUpState.error : null;
+  const emailError = signUpState.field === "email" ? signUpState.error : null;
+  const passwordError =
+    signUpState.field === "nickname" || signUpState.field === "email"
+      ? null
+      : signUpState.error;
 
   return (
     <Dialog open>
       <DialogContent showCloseButton={false} className="justify-items-center w-auto max-w-none p-0 bg-transparent ring-0">
         <Image
-                src="/images/logo.svg"
-                alt="JobFlow"
-                width={225}
-                height={63}
-                priority
-                className="self-center pt-4"
-              />
+          src="/images/logo.svg"
+          alt="JobFlow"
+          width={225}
+          height={63}
+          priority
+          className="self-center pt-4"
+        />
         <div className="perspective-distant">
           <div
             className={cn(
@@ -71,30 +82,31 @@ export function AuthDialog() {
                 <div className="relative group">
                   <Mail className={fieldIconClass} aria-hidden="true" />
                   <Label htmlFor="login-email" className="sr-only">Email</Label>
-                  <Input
+                  <ClearableInput
                     type="email"
                     id="login-email"
                     name="email"
                     autoComplete="email"
                     placeholder="Email"
+                    aria-invalid={signInState.error !== null}
                     required
                     className={inputClass}
                   />
                 </div>
-
                 <div className="relative group">
                   <Key className={fieldIconClass} aria-hidden="true" />
                   <Label htmlFor="login-password" className="sr-only">Password</Label>
-                  <Input
+                  <ClearableInput 
                     type="password"
                     id="login-password"
                     name="password"
                     autoComplete="current-password"
                     placeholder="Password"
-                    aria-invalid={!!signInState.error}
+                    aria-invalid={signInState.error !== null}
                     required
                     className={inputClass}
                   />
+                  <FieldError message={signInState.error} />
                 </div>
 
                 <div className="flex flex-col gap-2 items-center">
@@ -124,44 +136,50 @@ export function AuthDialog() {
                 <div className="relative group">
                   <User className={fieldIconClass} aria-hidden="true" />
                   <Label htmlFor="signup-nickname" className="sr-only">Nickname</Label>
-                  <Input
+                  <ClearableInput
                     type="text"
                     id="signup-nickname"
                     name="nickname"
                     autoComplete="nickname"
                     placeholder="Nickname"
+                    aria-invalid={nicknameError !== null}
                     required
                     className={inputClass}
                   />
+                  <FieldError message={nicknameError} />
                 </div>
 
                 <div className="relative group">
                   <Mail className={fieldIconClass} aria-hidden="true" />
                   <Label htmlFor="signup-email" className="sr-only">Email</Label>
-                  <Input
+                  <ClearableInput
                     type="email"
                     id="signup-email"
                     name="email"
                     autoComplete="email"
                     placeholder="Email"
+                    aria-invalid={emailError !== null}
                     required
                     className={inputClass}
                   />
+                  <FieldError message={emailError} />
                 </div>
 
                 <div className="relative group">
                   <Key className={fieldIconClass} aria-hidden="true" />
                   <Label htmlFor="signup-password" className="sr-only">Password</Label>
-                  <Input
+                  <ClearableInput
                     type="password"
                     id="signup-password"
                     name="password"
                     autoComplete="new-password"
                     placeholder="Password"
                     minLength={6}
+                    aria-invalid={passwordError !== null}
                     required
                     className={inputClass}
                   />
+                  <FieldError message={passwordError} />
                 </div>
 
                 <div className="flex flex-col gap-2 items-center">

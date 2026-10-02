@@ -3,9 +3,12 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 
+export type AuthField = "nickname" | "email" | "password";
+
 export type AuthState = {
   error: string | null;
   message: string | null;
+  field: AuthField | null;
 };
 
 export async function signIn(
@@ -19,11 +22,16 @@ export async function signIn(
   const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
-    return { error: error.message, message: null };
+    const text =
+      error.code === "invalid_credentials"
+        ? "Wrong email or password"
+        : error.message;
+
+    return { error: text, message: null, field: null };
   }
 
   revalidatePath("/", "layout");
-  return { error: null, message: null };
+  return { error: null, message: null, field: null };
 }
 
 export async function signUp(
@@ -35,7 +43,7 @@ export async function signUp(
   const password = String(formData.get("password") ?? "");
 
   if (!nickname) {
-    return { error: "Enter a nickname", message: null };
+    return { error: "Enter a nickname", message: null, field: "nickname" };
   }
 
   const supabase = await createClient();
@@ -46,15 +54,31 @@ export async function signUp(
   });
 
   if (error) {
-    return { error: error.message, message: null };
+    if (error.code === "user_already_exists") {
+      return {
+        error: "This email is already registered",
+        message: null,
+        field: "email",
+      };
+    }
+
+    if (error.code === "weak_password") {
+      return { error: error.message, message: null, field: "password" };
+    }
+
+    return { error: error.message, message: null, field: null };
   }
 
   if (!data.session) {
-    return { error: null, message: "Check your email to confirm your account" };
+    return {
+      error: null,
+      message: "Check your email to confirm your account",
+      field: null,
+    };
   }
 
   revalidatePath("/", "layout");
-  return { error: null, message: null };
+  return { error: null, message: null, field: null };
 }
 
 export async function signOut() {

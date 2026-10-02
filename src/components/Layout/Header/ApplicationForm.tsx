@@ -29,7 +29,7 @@ import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Loader } from "lucide-react";
 import { toast } from "@/components/ui/toast";
-import { useApplications } from "@/components/Common";
+import { ClearableInput, useApplications } from "@/components/Common";
 import { normalizeText } from "@/lib/utils";
 
 const items = [
@@ -106,7 +106,7 @@ export function ApplicationForm() {
           <FieldGroup>
             <Field className="group">
               <Label htmlFor="company" className={labelStyles}>Company</Label>
-              <Input
+              <ClearableInput
                 id="company"
                 name="company"
                 placeholder="e.g. Google"
@@ -117,7 +117,7 @@ export function ApplicationForm() {
             </Field>
             <Field className="group">
               <Label htmlFor="position" className={labelStyles}>Position</Label>
-              <Input
+              <ClearableInput
                 id="position"
                 name="position"
                 placeholder="e.g. Junior Frontend Developer"
@@ -127,10 +127,11 @@ export function ApplicationForm() {
               />
             </Field>
             <Field className="group">
-              <Label htmlFor="link" className={labelStyles}>Link</Label>
-              <Input
+              <Label htmlFor="link" className={labelStyles}>Job posting URL</Label>
+              <ClearableInput
                 id="link"
                 name="link"
+                type="url"
                 placeholder="e.g. https://..."
                 autoComplete="off"
                 required

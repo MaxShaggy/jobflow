@@ -23,6 +23,7 @@ export function Column({ title, cardsByStatus, id }: ColumnProps) {
             date={card.date}
             updatedDate={card.updated_date}
             status={card.status}
+            link={card.link}
           />
         ))}
       </div>

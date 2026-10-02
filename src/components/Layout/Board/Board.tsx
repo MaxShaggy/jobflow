@@ -27,6 +27,7 @@ export interface ApplicationProps {
   date: string;
   updated_date: string | null;
   status: ApplicationStatus;
+  link: string;
 }
 
 const columns: ColumnProps[] = [
@@ -112,6 +113,7 @@ export function Board() {
               date={neededCard.date}
               status={neededCard.status}
               updatedDate={neededCard.updated_date}
+              link={neededCard.link}
             />
           </div>
         )}

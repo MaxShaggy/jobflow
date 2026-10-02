@@ -12,9 +12,10 @@ interface DraggableCardProps {
   date: string;
   updatedDate: string | null;
   status: ApplicationStatus;
+  link: string;
 }
 
-export function DraggableCard({ id, company, position, date, status, updatedDate }: DraggableCardProps) {
+export function DraggableCard({ id, company, position, date, status, updatedDate, link }: DraggableCardProps) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({ id });
 
   const style = {
@@ -30,7 +31,7 @@ export function DraggableCard({ id, company, position, date, status, updatedDate
       className={isDragging ? "cursor-grabbing" : "cursor-grab"}
       {...listeners}
       {...attributes}>
-      <Card company={company} position={position} date={date} status={status} updatedDate={updatedDate} />
+      <Card company={company} position={position} date={date} status={status} updatedDate={updatedDate} link={ link} />
     </div>
   );
 }

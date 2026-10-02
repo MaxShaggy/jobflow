@@ -35,20 +35,30 @@ export function CompanyBadges({ applicationCompany }: CompanyBadgesProps) {
 
   return (
     <div className="flex items-center gap-2 ">
-      <div className={cn(
-        styleIconBlock,
-        isTopRated && "border-secondary-yellow bg-secondary-yellow/20 shadow-[0_0_12px_rgba(250,204,21,0.5)]"
-      )}>
-        <Trophy className={cn(
+      <div
+        role="img"
+        aria-label={isTopRated ? "Top rated company" : "Not top rated"}
+        className={cn(
+          styleIconBlock,
+          isTopRated && "border-secondary-yellow bg-secondary-yellow/20 shadow-[0_0_12px_rgba(250,204,21,0.5)]"
+        )}>
+        <Trophy
+          aria-hidden="true"
+          className={cn(
           "size-3",
           isTopRated ? "text-secondary-yellow drop-shadow-[0_0_6px_rgba(250,204,21,0.8)]" : "text-white/20"
         )} />
       </div>
-      <div className={cn(
+      <div
+        role="img"
+        aria-label={isRedFlag ? "Red flag company" : "No red flags"}
+        className={cn(
         styleIconBlock,
         isRedFlag && "border-destructive bg-destructive/20 shadow-[0_0_12px_rgba(239,68,68,0.5)]"
       )}>
-        <FlagTriangleRight className={cn(
+        <FlagTriangleRight
+          aria-hidden="true"
+          className={cn(
           "size-3",
           isRedFlag ? "text-destructive drop-shadow-[0_0_6px_rgba(239,68,68,0.5)]" : "text-white/20"
         )} />
