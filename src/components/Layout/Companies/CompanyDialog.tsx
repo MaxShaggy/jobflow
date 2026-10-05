@@ -11,10 +11,12 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Company } from "./Companies";
-import { Globe } from 'lucide-react';
+import { Globe, Trash2 } from 'lucide-react';
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Loader } from "lucide-react";
+import { toast } from "@/components/ui/toast";
+import { useCompanies } from "@/components/Common/CompaniesProvider";
 
 interface CompanyDialogProps {
   company: Company | undefined;
@@ -26,11 +28,15 @@ interface CompanyDialogProps {
 interface CompanyReview {
   id: number;
   text: string;
+  user_id: string | null;
 };
 
 export function CompanyDialog({ company, open, onOpenChange, tab }: CompanyDialogProps) {
   const [reviews, setReviews] = useState<CompanyReview[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+
+  const { companies, setCompanies } = useCompanies();
 
   useEffect(() => {
     if (!company || tab !== "red_flag") {
@@ -41,7 +47,13 @@ export function CompanyDialog({ company, open, onOpenChange, tab }: CompanyDialo
 
     async function loadReviews() {
       setIsLoading(true);
+
       const supabase = createClient();
+
+      const { data: { user } } = await supabase.auth.getUser();
+
+      setCurrentUserId(user?.id ?? null);
+
       const { data } = await supabase
         .from('company_reviews')
         .select()
@@ -53,6 +65,32 @@ export function CompanyDialog({ company, open, onOpenChange, tab }: CompanyDialo
     loadReviews();
   }, [company, open, tab]);
 
+  async function handleDelete(reviewId: number) {
+    const supabase = createClient();
+
+    const { error } = await supabase
+      .from("company_reviews")
+      .delete()
+      .eq("id", reviewId);
+
+    if (error) {
+      toast.add({ title: "Failed to delete review", description: error.message, type: "error" });
+      return;
+    }
+
+    setReviews(reviews.filter(review => review.id !== reviewId));
+
+    setCompanies(companies.map(item =>
+      item.id === company?.id
+        ? { ...item, company_reviews: [{ count: item.company_reviews[0].count - 1 }] }
+        : item
+    ));
+
+    if (reviews.length === 1) {
+      onOpenChange(false);
+    }
+  }
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-sm gradient-bg border-2 border-white/40 shadow-[0_0_40px_rgba(99,102,241,0.25)]">
@@ -62,6 +100,7 @@ export function CompanyDialog({ company, open, onOpenChange, tab }: CompanyDialo
             {company?.website && (
               <a
                 href={company?.website ?? undefined}
+                rel="noopener noreferrer"
                 target="_blank"
                 className="flex gap-2 items-center no-underline group"
               >
@@ -81,7 +120,22 @@ export function CompanyDialog({ company, open, onOpenChange, tab }: CompanyDialo
             tab === "red_flag" ? (
               <ul>
                 {reviews.map(review => (
-                  <li key={review.id} className="pb-2">- {review.text}</li>
+                  <li key={review.id} className="pb-2 flex justify-between gap-2">
+                    - {review.text}
+                    {currentUserId !== null && review.user_id === currentUserId &&
+                      <button
+                        type="button"
+                        aria-label="delete your review"
+                        className="shrink-0 self-start hover:text-destructive cursor-pointer transition-colors duration-300"
+                        onClick={() => handleDelete(review.id)}
+                      >
+                        <Trash2
+                          aria-hidden="true"
+                          className="size-4"
+                        />
+                      </button>
+                    }
+                  </li>
                 ))}
               </ul>
             ) : (
