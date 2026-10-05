@@ -13,7 +13,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Field, FieldGroup } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -99,7 +98,7 @@ export function ApplicationForm() {
         <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle className="uppercase">Add Job Application</DialogTitle>
-            <DialogDescription>
+            <DialogDescription className="mb-4">
               Fill in the details of the job you applied for. Click save when you&apos;re done.
             </DialogDescription>
           </DialogHeader>

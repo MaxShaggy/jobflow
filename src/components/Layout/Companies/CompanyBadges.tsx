@@ -30,7 +30,7 @@ export function CompanyBadges({ applicationCompany }: CompanyBadgesProps) {
       applicationWords.includes(companyWord)
     );
 
-    return company.status === 'red_flag' && nameMatches;
+    return company.company_reviews[0].count > 0 && nameMatches;
   });
 
   return (

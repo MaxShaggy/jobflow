@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -18,6 +20,7 @@ interface CompanyDialogProps {
   company: Company | undefined;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  tab: "top_rated" | "red_flag";
 };
 
 interface CompanyReview {
@@ -25,12 +28,12 @@ interface CompanyReview {
   text: string;
 };
 
-export function CompanyDialog({ company, open, onOpenChange }: CompanyDialogProps) {
+export function CompanyDialog({ company, open, onOpenChange, tab }: CompanyDialogProps) {
   const [reviews, setReviews] = useState<CompanyReview[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (!company || company.status !== "red_flag") {
+    if (!company || tab !== "red_flag") {
       return;
     }
 
@@ -48,7 +51,7 @@ export function CompanyDialog({ company, open, onOpenChange }: CompanyDialogProp
     }
 
     loadReviews();
-  }, [company, open]);
+  }, [company, open, tab]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -75,7 +78,7 @@ export function CompanyDialog({ company, open, onOpenChange }: CompanyDialogProp
               <Loader className="size-4 animate-spin" />
             </div>
           ) : (
-            company?.status === 'red_flag' ? (
+            tab === "red_flag" ? (
               <ul>
                 {reviews.map(review => (
                   <li key={review.id} className="pb-2">- {review.text}</li>

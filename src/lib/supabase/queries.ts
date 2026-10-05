@@ -13,7 +13,7 @@ export async function getCompanies() {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from('companies')
-    .select();
+    .select("*, company_reviews(count)");
 
   return { data, error };
 }
