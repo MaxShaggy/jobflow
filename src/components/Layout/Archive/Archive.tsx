@@ -26,8 +26,9 @@ export default function Archive() {
             link={rejApp.link}
           />
           <Button
-            className="w-26 p-4 border-2 border-white/20 bg-white/[0.04] backdrop-blur-sm hover:bg-white/15 hover:text-cyan-400/70 hover:border-white/40 duration-300 focus-visible:ring-2 focus-visible:ring-cyan-400/70 absolute top-2 right-2 opacity-0 group-hover:opacity-100 cursor-pointer transition-all duration-300"
-          onClick={()=> updateApplicationStatus(rejApp.id, "interview", applications, setApplications)}
+            variant="glass"
+            className="w-26 p-4 absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all duration-300"
+            onClick={() => updateApplicationStatus(rejApp.id, "interview", applications, setApplications)}
           >
             To Interview
           </Button>

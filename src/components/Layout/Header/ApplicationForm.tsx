@@ -174,10 +174,11 @@ export function ApplicationForm() {
             </Field>
           </FieldGroup>
           <DialogFooter>
-            <DialogClose render={<Button variant="outline" className="w-22 border-2 border-white/20 bg-white/[0.04] backdrop-blur-sm hover:bg-white/15 hover:text-cyan-400/70 hover:border-white/40 transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-cyan-400/70">Cancel</Button>} />
+            <DialogClose render={<Button variant="glass" className="w-22">Cancel</Button>} />
             <Button
               type="submit"
-              className="w-22 border-2 border-white/20 bg-white/[0.04] backdrop-blur-sm hover:bg-white/15 hover:text-cyan-400/70 hover:border-white/40 transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-cyan-400/70"
+              variant="glass"
+              className="w-22"
               disabled={isSubmitting}
             >
               {isSubmitting ? (
