@@ -57,22 +57,22 @@ export function Companies() {
         onValueChange={setActiveTab}
         className="px-4 h-full flex flex-col min-h-0">
         <div className="flex items-center gap-6 mb-4">
-          <TabsList className="flex items-center gap-2 p-2 bg-white/10 border border-transparent hover:border-white/40 hover:shadow-[0_0_12px_rgba(34,211,238,0.4)] transition-all duration-300">
+          <TabsList className="flex items-center gap-2 p-2 bg-glass/40 border border-transparent hover:border-edge-hover hover:shadow-[0_2px_10px_rgba(26,27,46,0.15)] dark:bg-glass/10 dark:hover:border-glass/40 dark:hover:shadow-[0_0_12px_rgba(34,211,238,0.4)] transition-all duration-300">
             <TabsTrigger
               value="top_rated"
-              className="h-auto w-28 flex items-center gap-1 cursor-pointer transition-colors duration-300 data-active:bg-white/15 group">
+              className="h-auto w-28 flex items-center gap-1 cursor-pointer transition-colors duration-300 data-active:bg-glass/70 dark:data-active:bg-glass/15 group">
               <Trophy
                 aria-hidden="true"
                 className="group-hover:text-secondary-yellow transition-colors duration-300 group-data-active:text-secondary-yellow" />
-              <span className="group-hover:text-cyan-300 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)] transition-colors duration-300 group-data-active:text-cyan-300">Top Rated</span>
+              <span className="group-hover:text-accent-cyan dark:drop-shadow-[0_0_10px_rgba(34,211,238,0.8)] transition-colors duration-300 group-data-active:text-accent-cyan">Top Rated</span>
             </TabsTrigger>
             <TabsTrigger
               value="red_flag"
-              className="h-auto w-28 flex items-center gap-1 cursor-pointer transition-colors duration-300 data-active:bg-white/15 group">
+              className="h-auto w-28 flex items-center gap-1 cursor-pointer transition-colors duration-300 data-active:bg-glass/70 dark:data-active:bg-glass/15 group">
               <FlagTriangleRight
                 aria-hidden="true"
                 className="group-hover:text-destructive transition-colors duration-300 group-data-active:text-destructive" />
-              <span className="group-hover:text-cyan-300 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)] transition-colors duration-300 group-data-active:text-cyan-300">Red Flag</span>
+              <span className="group-hover:text-accent-cyan dark:drop-shadow-[0_0_10px_rgba(34,211,238,0.8)] transition-colors duration-300 group-data-active:text-accent-cyan">Red Flag</span>
             </TabsTrigger>
           </TabsList>
           {activeTab === "red_flag" && <RedFlagForm />}

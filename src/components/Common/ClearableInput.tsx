@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
-export function ClearableInput({className, ...props }: React.ComponentProps<typeof Input>) {
+export function ClearableInput({ className, ...props }: React.ComponentProps<typeof Input>) {
   const [value, setValue] = useState('');
 
   return (
@@ -20,7 +20,7 @@ export function ClearableInput({className, ...props }: React.ComponentProps<type
         <button
           type="button"
           aria-label="Clear"
-          className="absolute right-2 top-1/2 -translate-y-1/2 hover:text-cyan-400 transition-colors duration-300 cursor-pointer"
+          className="absolute right-2 top-1/2 -translate-y-1/2 hover:text-accent-cyan transition-colors duration-300 cursor-pointer"
           onClick={() => setValue('')}
         >
           <X className="size-4" />

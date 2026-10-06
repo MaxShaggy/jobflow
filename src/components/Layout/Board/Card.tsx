@@ -13,12 +13,12 @@ interface CardProps {
 
 export function Card({ company, position, date, updatedDate, status, link }: CardProps) {
   return (
-    <div className="group flex flex-col gap-2 justify-between py-2 px-4 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 transition-colors duration-300 ease-out hover:bg-white/10 hover:border-white/20 hover:drop-shadow-[0_0_20px_rgba(99,102,241,0.3)] select-none">
+    <div className="group flex flex-col gap-2 justify-between py-2 px-4 rounded-2xl bg-surface backdrop-blur-md border border-edge transition-colors duration-300 ease-out hover:bg-surface-hover hover:border-edge-hover hover:drop-shadow-[0_0_20px_rgba(99,102,241,0.3)] select-none">
       <div className="flex flex-col">
-        <h3 className="font-bold text-lg text-white tracking-wide truncate group-hover:text-white">
+        <h3 className="font-bold text-lg text-contrast tracking-wide truncate group-hover:text-contrast">
           {company}
         </h3>
-        <p className="text-sm font-medium text-cyan-400/90 truncate group-hover:text-cyan-300">
+        <p className="text-sm font-medium text-accent-cyan/90 truncate group-hover:text-accent-cyan">
           {position}
         </p>
       </div>
@@ -32,7 +32,7 @@ export function Card({ company, position, date, updatedDate, status, link }: Car
             title="Open job posting"
             aria-label={`Open job posting: ${position} at ${company}`}
             onPointerDown={(event) => event.stopPropagation()}
-            className="p-2 border border-transparent text-white/40 hover:text-link-hover transition-colors duration-300 cursor-pointer">
+            className="p-2 border border-transparent text-contrast/40 hover:text-link-hover transition-colors duration-300 cursor-pointer">
             <ExternalLink
               aria-hidden="true"
               className="size-5" />
@@ -47,7 +47,7 @@ export function Card({ company, position, date, updatedDate, status, link }: Car
               <span className="text-xs tracking-wider">
                 Updated
               </span>
-              <span className="text-xs text-white/40 tracking-wider">
+              <span className="text-xs text-contrast/40 tracking-wider">
                 {updatedDate}
               </span>
             </div>
@@ -56,7 +56,7 @@ export function Card({ company, position, date, updatedDate, status, link }: Car
             <span className="text-xs tracking-wider">
               Applied
             </span>
-            <span className="text-xs text-white/40 tracking-wider">
+            <span className="text-xs text-contrast/40 tracking-wider">
               {date}
             </span>
           </div>

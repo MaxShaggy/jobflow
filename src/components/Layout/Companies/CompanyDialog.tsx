@@ -17,6 +17,7 @@ import { createClient } from "@/lib/supabase/client";
 import { Loader } from "lucide-react";
 import { toast } from "@/components/ui/toast";
 import { useCompanies } from "@/components/Common/CompaniesProvider";
+import { dialogContentStyles } from "@/lib/formStyles";
 
 interface CompanyDialogProps {
   company: Company | undefined;
@@ -93,7 +94,7 @@ export function CompanyDialog({ company, open, onOpenChange, tab }: CompanyDialo
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-sm gradient-bg border-2 border-white/40 shadow-[0_0_40px_rgba(99,102,241,0.25)]">
+      <DialogContent className={dialogContentStyles}>
         <DialogHeader>
           <DialogTitle>{company?.name}</DialogTitle>
           <DialogDescription >
@@ -104,8 +105,8 @@ export function CompanyDialog({ company, open, onOpenChange, tab }: CompanyDialo
                 target="_blank"
                 className="flex gap-2 items-center no-underline group"
               >
-                <Globe size={16} className="group-hover:text-cyan-400/70 transition-colors duration-300" />
-                <span className="group-hover:text-cyan-400/70 transition-colors duration-300">Visit website</span>
+                <Globe size={16} className="group-hover:text-accent-cyan/70 transition-colors duration-300" />
+                <span className="group-hover:text-accent-cyan/70 transition-colors duration-300">Visit website</span>
               </a>
             )}
 

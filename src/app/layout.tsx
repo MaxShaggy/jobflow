@@ -12,6 +12,7 @@ import { ErrorToast } from "@/components/Common";
 import { SearchProvider } from "@/components/Common/SearchProvider";
 import { CompaniesProvider } from "@/components/Common/CompaniesProvider";
 import { AuthDialog } from "@/components/Auth/AuthDialog";
+import { ThemesProvider } from "@/components/Common/ThemeProvider";
 
 
 const geistSans = Geist({
@@ -63,28 +64,34 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const initialCompanies = companiesData ? companiesData : [];
 
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+    >
       <body className="h-screen py-4 pl-4 flex gap-2 gradient-bg">
-        <Sidebar nickname={user?.user_metadata?.nickname} />
-        <div className="flex-1 flex flex-col gap-6 min-w-0 min-h-0">
-          <ApplicationsProvider
-            key={user?.id ?? "guest"}
-            initialApplications={initialApplications}
-          >
-            <SearchProvider>
-              <CompaniesProvider initialCompanies={initialCompanies}>
-                <ErrorToast error={applicationsError} />
-                <ErrorToast error={companiesError} />
-                <Header />
-                <main className="flex-1 min-w-0 min-h-0">
-                  {children}
-                </main>
-              </CompaniesProvider>
-            </SearchProvider>
-          </ApplicationsProvider>
-        </div>
-        {!user && <AuthDialog />}
-        <Toaster />
+        <ThemesProvider>
+          <Sidebar nickname={user?.user_metadata?.nickname} isLoggedIn={user !== null}/>
+          <div className="flex-1 flex flex-col gap-6 min-w-0 min-h-0">
+            <ApplicationsProvider
+              key={user?.id ?? "guest"}
+              initialApplications={initialApplications}
+            >
+              <SearchProvider>
+                <CompaniesProvider initialCompanies={initialCompanies}>
+                  <ErrorToast error={applicationsError} />
+                  <ErrorToast error={companiesError} />
+                  <Header />
+                  <main className="flex-1 min-w-0 min-h-0">
+                    {children}
+                  </main>
+                </CompaniesProvider>
+              </SearchProvider>
+            </ApplicationsProvider>
+          </div>
+          {!user && <AuthDialog />}
+          <Toaster />
+        </ThemesProvider>
       </body>
     </html>
   );

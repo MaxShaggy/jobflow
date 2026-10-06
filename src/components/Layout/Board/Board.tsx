@@ -40,33 +40,33 @@ const columns: ColumnProps[] = [
 
 export function Board() {
   const { applications, setApplications } = useApplications()
-  const [activeDragCard, setActiveDragCard] = useState<number  | null>(null);
+  const [activeDragCard, setActiveDragCard] = useState<number | null>(null);
   const { searchQuery } = useSearch();
 
   function getApplicationsByStatus(status: ApplicationStatus) {
-  const filtered = applications.filter(app => app.status === status);
+    const filtered = applications.filter(app => app.status === status);
 
-  const sorted = filtered.toSorted((a, b) => {
-    const dateStringA = status === "applications" ? a.date : a.updated_date!;
-    const dateStringB = status === "applications" ? b.date : b.updated_date!;
+    const sorted = filtered.toSorted((a, b) => {
+      const dateStringA = status === "applications" ? a.date : a.updated_date!;
+      const dateStringB = status === "applications" ? b.date : b.updated_date!;
 
-    const [dayA, monthA, yearA] = dateStringA.split('.');
-    const [dayB, monthB, yearB] = dateStringB.split('.');
+      const [dayA, monthA, yearA] = dateStringA.split('.');
+      const [dayB, monthB, yearB] = dateStringB.split('.');
 
-    const dateA = new Date(+yearA, +monthA - 1, +dayA);
-    const dateB = new Date(+yearB, +monthB - 1, +dayB);
+      const dateA = new Date(+yearA, +monthA - 1, +dayA);
+      const dateB = new Date(+yearB, +monthB - 1, +dayB);
 
-    return dateB.getTime() - dateA.getTime();
-  });
+      return dateB.getTime() - dateA.getTime();
+    });
 
-  const limited = status === "rejected" ? sorted.slice(0, 7) : sorted;
+    const limited = status === "rejected" ? sorted.slice(0, 7) : sorted;
 
-  const searched = limited.filter(app =>
-    app.company.toLowerCase().includes(searchQuery.toLowerCase().trim())
-  );
+    const searched = limited.filter(app =>
+      app.company.toLowerCase().includes(searchQuery.toLowerCase().trim())
+    );
 
-  return searched;
-}
+    return searched;
+  }
 
   async function handleDragEnd(event: DragEndEvent) {
     if (!event.over) {
@@ -97,7 +97,7 @@ export function Board() {
               <div key={col.id} className="flex h-full">
                 <Column title={col.title} cardsByStatus={cardsByStatus} id={col.id} />
                 {index < columns.length - 1 && (
-                  <div className="w-px bg-white/10 h-full ml-4" />
+                  <div className="w-px bg-edge h-full ml-4" />
                 )}
               </div>
             )

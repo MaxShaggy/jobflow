@@ -30,6 +30,7 @@ import { Loader } from "lucide-react";
 import { toast } from "@/components/ui/toast";
 import { ClearableInput, useApplications } from "@/components/Common";
 import { normalizeText } from "@/lib/utils";
+import { inputStyles, labelStyles, dialogContentStyles } from "@/lib/formStyles";
 
 const items = [
   { label: "Junior", value: "junior" },
@@ -38,8 +39,6 @@ const items = [
 ]
 
 export function ApplicationForm() {
-  const inputStyles = "bg-white/10 border-2 border-white/20 focus-visible:border-2 focus-visible:border-cyan-400/70 focus-visible:ring-0";
-  const labelStyles = "transition-colors duration-300 group-focus-within:text-cyan-400/70";
 
   const [level, setLevel] = useState<"Junior" | "Middle" | "Senior" | null>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -94,7 +93,7 @@ export function ApplicationForm() {
         }
       }}>
       <DialogTrigger render={<AddApplicationButton />} />
-      <DialogContent className="sm:max-w-sm gradient-bg border-2 border-white/40 shadow-[0_0_40px_rgba(99,102,241,0.25)]">
+      <DialogContent className={dialogContentStyles}>
         <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle className="uppercase">Add Job Application</DialogTitle>
@@ -147,12 +146,12 @@ export function ApplicationForm() {
               >
                 <SelectTrigger
                   id="level"
-                  className={`w - full max - w - 60 ${inputStyles} `}>
+                  className={`w-full max-w-60 ${inputStyles}`}>
                   <SelectValue placeholder="Choose Experience Level" />
                 </SelectTrigger>
-                <SelectContent className="gradient-bg bg-black/20 border-2 border-white/50">
+                <SelectContent className="gradient-bg border-2 border-edge dark:border-glass/50">
                   <SelectGroup>
-                    <SelectLabel className="text-cyan-400/70">Experience Level</SelectLabel>
+                    <SelectLabel className="text-accent-cyan/70">Experience Level</SelectLabel>
                     {items.map((item) => (
                       <SelectItem key={item.value} value={item.value}>
                         {item.label}

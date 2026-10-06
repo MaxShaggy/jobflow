@@ -10,6 +10,8 @@
 
   --color-text-1: var(--text-1);
   --color-text-2: var(--text-2);
+  --color-glass: var(--glass);
+  --color-glass-bg: var(--glass-bg);
   --color-accent-blue: var(--accent-blue);
   --color-accent-cyan: var(--accent-cyan);
   --color-destructive: var(--destructive);
@@ -18,19 +20,104 @@
 
   --color-foreground: var(--foreground);
   --color-ring: var(--ring);
+
+  --color-app-bg: var(--app-bg);
+
+  --color-contrast: var(--contrast);
+
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-edge: var(--edge);
+  --color-edge-hover: var(--edge-hover);
 }
 
 :root {
+  --text-1: #1a1b2e;
+  --text-2: #5b5d72;
+  --glass: #fff;
+  --accent-blue: #2f6fc0;
+  --accent-cyan: #4f46e5;
+  --secondary-yellow: #ca8a04;
+  --destructive: #dc2626;
+  --link-hover: #16a34a;
+
+  --foreground: var(--text-1);
+  --ring: var(--accent-blue);
+  --contrast: #1a1b2e;
+
+  --login-bg: #e6e8f5;
+  --login-gradient: var(--app-gradient);
+
+  --glass-bg: rgb(255 255 255 / 0.55);
+  --glass-border: rgb(26 27 46 / 0.12);
+
+  --glow: rgba(8, 145, 178, 0.5);
+
+  --scrollbar-thumb: rgba(26, 27, 46, 0.2);
+  --scrollbar-thumb-hover: rgba(8, 145, 178, 0.6);
+
+  --autofill-text: #1a1b2e;
+  --autofill-bg: #dfe3f2;
+
+  --app-bg: #c9d3dc;
+
+  --app-gradient:
+    radial-gradient(ellipse 70vw 50vh at 20vw 0vh, rgba(96, 130, 156, 0.55), transparent),
+    radial-gradient(ellipse 60vw 50vh at 90vw 10vh, rgba(120, 150, 170, 0.45), transparent),
+    radial-gradient(ellipse 70vw 45vh at 15vw 100vh, rgba(232, 214, 196, 0.8), transparent),
+    radial-gradient(ellipse 60vw 40vh at 85vw 100vh, rgba(210, 196, 186, 0.6), transparent),
+    linear-gradient(180deg, #a9bccb 0%, #d9d6d2 60%, #ece0d4 100%);
+
+  --surface: rgb(255 255 255 / 0.45);
+  --surface-hover: rgb(255 255 255 / 0.65);
+  --edge: rgb(91 93 114 / 0.5);
+  --edge-hover: rgb(91 93 114 / 0.8);
+}
+
+.dark {
   --text-1: #f2f2f2;
   --text-2: #9f9fa2;
+  --glass: #fff;
   --accent-blue: #4a90d9;
-  --accent-cyan: #22d3ee;
+  --accent-cyan: #25d2ed;
   --secondary-yellow: #ffff00;
   --destructive: #ef4444;
   --link-hover: #3bec64;
 
   --foreground: var(--text-1);
   --ring: var(--accent-blue);
+
+  --contrast: #fff;
+
+  --app-bg: #0b0d19;
+--app-gradient:
+  radial-gradient(circle at 0vw 0vh, rgba(20, 184, 166, 0.3) 0px, rgba(20, 184, 166, 0.2) 20vw, transparent 80vw),
+  radial-gradient(circle at 100vw 0vh, rgba(89, 91, 238, 0.3) 0px, transparent 50vw),
+  radial-gradient(circle at 50vw 50vh, rgba(139, 92, 246, 0.2) 0px, transparent 60vw),
+  radial-gradient(circle at 0vw 100vh, rgba(5, 160, 232, 0.3) 0px, rgba(5, 160, 232, 0.2) 20vw, transparent 75vw);
+
+  --login-bg: rgb(35, 35, 71);
+  --login-gradient:
+    radial-gradient(circle at 0% 0%, rgba(71, 228, 210, 0.25) 0%, transparent 50%),
+    radial-gradient(circle at 100% 0%, rgba(98, 100, 225, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.2) 0%, transparent 60%),
+    radial-gradient(circle at 0% 100%, rgba(14, 165, 233, 0.25) 0%, transparent 50%);
+
+  --glass-bg: rgb(255 255 255 / 0.06);
+  --glass-border: rgb(255 255 255 / 0.15);
+
+  --glow: rgba(34, 211, 238, 0.8);
+
+  --scrollbar-thumb: rgba(255, 255, 255, 0.15);
+  --scrollbar-thumb-hover: rgba(34, 211, 238, 0.6);
+
+  --autofill-text: #fff;
+  --autofill-bg: rgb(74, 69, 120);
+
+  --surface: rgb(255 255 255 / 0.05);
+  --surface-hover: rgb(255 255 255 / 0.1);
+  --edge: rgb(255 255 255 / 0.1);
+  --edge-hover: rgb(255 255 255 / 0.2);
 }
 
 @layer base {
@@ -45,10 +132,10 @@
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
-  -webkit-text-fill-color: #fff;
-  caret-color: #fff;
+  -webkit-text-fill-color: var(--autofill-text);
+  caret-color: var(--autofill-text);
   transition: background-color 9999s ease-in-out 0s;
-  box-shadow: 0 0 0 1000px rgb(74, 69, 120) inset;
+  box-shadow: 0 0 0 1000px var(--autofill-bg) inset;
 }
 
 body > [data-base-ui-portal] {
@@ -56,32 +143,24 @@ body > [data-base-ui-portal] {
 }
 
 .gradient-bg {
-  background-color: #0b0d19;
-  background-image:
-    radial-gradient(circle at 0vw 0vh, rgba(20, 184, 166, 0.25) 0px, transparent 50vw),
-    radial-gradient(circle at 100vw 0vh, rgba(99, 102, 241, 0.3) 0px, transparent 50vw),
-    radial-gradient(circle at 50vw 50vh, rgba(139, 92, 246, 0.2) 0px, transparent 60vw),
-    radial-gradient(circle at 0vw 100vh, rgba(14, 165, 233, 0.25) 0px, transparent 50vw);
+  background-color: var(--app-bg);
+  background-image: var(--app-gradient);
   background-attachment: fixed;
 }
 
 .gradientLogin-bg {
-  background-color: rgb(35, 35, 71);
-  background-image:
-    radial-gradient(circle at 0% 0%, rgba(71, 228, 210, 0.25) 0%, transparent 50%),
-    radial-gradient(circle at 100% 0%, rgba(98, 100, 225, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.2) 0%, transparent 60%),
-    radial-gradient(circle at 0% 100%, rgba(14, 165, 233, 0.25) 0%, transparent 50%);
+  background-color: var(--login-bg);
+  background-image: var(--login-gradient);
 }
 
 .glass-panel {
-  background-color: rgb(255 255 255 / 0.06);
+  background-color: var(--glass-bg);
   backdrop-filter: blur(12px);
-  border: 1px solid rgb(255 255 255 / 0.15);
+  border: 1px solid var(--glass-border);
 }
 
 .cyan-glow {
-  filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.8));
+  filter: drop-shadow(0 0 10px var(--glow));
 }
 
 .board-scrollbar::-webkit-scrollbar {
@@ -94,13 +173,13 @@ body > [data-base-ui-portal] {
 }
 
 .board-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--scrollbar-thumb);
   border-radius: 9999px;
   transition: 0.3s;
 }
 
 .board-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(34, 211, 238, 0.6);
+  background: var(--scrollbar-thumb-hover);
 }
 
 .hidden-scrollbar::-webkit-scrollbar {

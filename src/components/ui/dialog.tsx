@@ -65,7 +65,7 @@ function DialogContent({
             render={
               <Button
                 variant="ghost"
-                className="absolute top-2 right-2 text-white/70 hover:text-cyan-400/70 hover:bg-white/10 transition-colors duration-300 cursor-pointer"
+                className="absolute top-2 right-2 rounded-full text-contrast/70 bg-glass/40 shadow-[2px_2px_4px_rgba(0,0,0,0.2),-2px_-2px_4px_rgba(255,255,255,0.6)] hover:text-accent-cyan active:shadow-[inset_2px_2px_3px_rgba(0,0,0,0.2),inset_-2px_-2px_3px_rgba(255,255,255,0.6)] dark:bg-transparent dark:shadow-none dark:hover:text-accent-cyan/70 dark:hover:bg-glass/10 dark:active:shadow-none transition-[color,box-shadow] duration-300 cursor-pointer"
                 size="icon-sm"
               />
             }

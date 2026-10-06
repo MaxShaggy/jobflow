@@ -21,11 +21,9 @@ import { useState } from "react";
 import { useCompanies } from "@/components/Common/CompaniesProvider";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "@/components/ui/toast";
+import { inputStyles, labelStyles, dialogContentStyles } from "@/lib/formStyles";
 
 export function RedFlagForm() {
-  const inputStyles = "bg-white/10 border-2 border-white/20 focus-visible:border-2 focus-visible:border-cyan-400/70 focus-visible:ring-0";
-  const labelStyles = "transition-colors duration-300 group-focus-within:text-cyan-400/70";
-
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { companies, setCompanies } = useCompanies();
@@ -95,7 +93,7 @@ export function RedFlagForm() {
       onOpenChange={setIsOpen}
     >
       <DialogTrigger render={<AddRedFlagButton />} />
-      <DialogContent className="sm:max-w-sm gradient-bg border-2 border-white/40 shadow-[0_0_40px_rgba(99,102,241,0.25)]">
+      <DialogContent className={dialogContentStyles}>
         <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle className="uppercase">Add redflag company</DialogTitle>
@@ -116,7 +114,7 @@ export function RedFlagForm() {
                 autoComplete="off"
                 list="companyNames"
                 required
-                className={inputStyles}
+                className={`${inputStyles} [&::-webkit-calendar-picker-indicator]:hidden!`}
               />
               <datalist id="companyNames">
                 {companies.map(company => (

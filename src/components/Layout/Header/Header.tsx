@@ -4,11 +4,18 @@ import { IconButton } from "@/components/ui/icon-button";
 import { ApplicationForm } from "./ApplicationForm";
 import { SearchInput } from "./SearchInput";
 import { Moon, Sun } from "lucide-react"
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
+import { useTheme } from "next-themes";
 
 export function Header() {
   const [language, setLanguage] = useState<"en" | "ua">("en");
-  const [theme, setTheme] = useState<"light" | "dark">("dark");
+  const { theme, setTheme } = useTheme();
+
+const mounted = useSyncExternalStore(
+  () => () => {},
+  () => true,
+  () => false
+);
 
   return (
     <header className="flex gap-6 justify-between items-center p-4">
@@ -19,12 +26,12 @@ export function Header() {
           <IconButton
             icon={<Moon className="size-4" />}
             onClick={() => setTheme("dark")}
-            isActive={theme === "dark"}
+            isActive={mounted && theme === "dark"}
           />
           <IconButton
             icon={<Sun className="size-4" />}
             onClick={() => setTheme("light")}
-            isActive={theme === "light"}
+            isActive={mounted && theme === "light"}
           />
         </div>
         <div className="flex gap-2">

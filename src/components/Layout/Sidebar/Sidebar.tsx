@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 
 interface SidebarProps {
   nickname: string | undefined;
+  isLoggedIn: boolean;
 }
 interface NavItem {
   label: string;
@@ -21,16 +22,24 @@ const navItems: NavItem[] = [
   { label: "Archive", href: "/archive", icon: ArchiveX },
 ];
 
-export function Sidebar({ nickname }: SidebarProps) {
+export function Sidebar({ nickname, isLoggedIn }: SidebarProps) {
   return (
-    <aside className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl w-64 pb-5 flex flex-col gap-5 transition-all duration-300 hover:bg-white/15 hover:border-white/40 hover:shadow-[0_0_40px_rgba(99,102,241,0.25)]">
+    <aside className="bg-surface backdrop-blur-md border border-edge rounded-2xl w-64 pb-5 flex flex-col gap-5 transition-all duration-300 hover:bg-surface-hover hover:border-edge-hover hover:shadow-[0_0_40px_rgba(99,102,241,0.25)]">
       <Image
         src="/images/logo.svg"
         alt="JobFlow"
         width={225}
         height={63}
         priority
-        className="self-center pt-4"
+        className="hidden dark:block self-center pt-4"
+      />
+      <Image
+        src="/images/logo-light.svg"
+        alt="JobFlow"
+        width={225}
+        height={63}
+        priority
+        className="dark:hidden self-center pt-4"
       />
       <ul className="text-text-2 p-6 flex flex-col gap-6">
         {navItems.map((item) => {
@@ -46,23 +55,24 @@ export function Sidebar({ nickname }: SidebarProps) {
           );
         })}
       </ul>
-
-      <div className="mt-auto mx-6 pt-5 border-t border-white/10 flex items-center justify-between gap-3">
-        <p className="min-w-0 truncate text-white/70">
-          Hello, <span className="font-semibold text-cyan-300">{nickname ?? "User"} !</span>
+      {isLoggedIn && (
+      <div className="mt-auto mx-6 pt-5 border-t border-edge flex items-center justify-between gap-3">
+        <p className="min-w-0 truncate text-contrast/70">
+          Hello, <span className="font-semibold text-accent-cyan">{nickname ?? "User"} !</span>
         </p>
         <form action={signOut}>
           <Button
             type="submit"
             variant="ghost"
             size="sm"
-            className="shrink-0 text-white/70 cursor-pointer hover:bg-white/10 hover:text-cyan-300"
+            className="shrink-0 text-contrast/70 cursor-pointer hover:bg-glass/10 hover:text-accent-cyan"
           >
             <LogOut aria-hidden="true" />
             Log out
           </Button>
         </form>
       </div>
+          )}
     </aside>
   );
 }
