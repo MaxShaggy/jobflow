@@ -25,22 +25,28 @@ const mounted = useSyncExternalStore(
         <div className="flex gap-2">
           <IconButton
             icon={<Moon className="size-4" />}
+            label="Dark theme"
             onClick={() => setTheme("dark")}
             isActive={mounted && theme === "dark"}
           />
           <IconButton
             icon={<Sun className="size-4" />}
+            label="Light theme"
             onClick={() => setTheme("light")}
             isActive={mounted && theme === "light"}
           />
         </div>
         <div className="flex gap-2">
           <IconButton
-            icon={<span className="text-xs font-semibold">EN</span>} onClick={() => setLanguage("en")}
+            icon={<span className="text-xs font-semibold">EN</span>}
+            label="English"
+            onClick={() => setLanguage("en")}
             isActive={language === "en"}
           />
           <IconButton
-            icon={<span className="text-xs font-semibold">UA</span>} onClick={() => setLanguage("ua")}
+            icon={<span className="text-xs font-semibold">UA</span>}
+            label="Ukrainian"
+            onClick={() => setLanguage("ua")}
             isActive={language === "ua"}
           />
         </div>

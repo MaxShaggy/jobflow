@@ -29,63 +29,58 @@ export function RedFlagForm() {
   const { companies, setCompanies } = useCompanies();
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setIsSubmitting(true);
+  event.preventDefault();
+  setIsSubmitting(true);
 
-    const formData = new FormData(event.currentTarget);
+  const formData = new FormData(event.currentTarget);
 
-    const companyName = String(formData.get("company") ?? "").trim();
-    const review = String(formData.get("review") ?? "").trim();
+  const companyName = String(formData.get("company") ?? "").trim();
+  const review = String(formData.get("review") ?? "").trim();
 
-    const existingCompany = companies.find(
-      company => company.name.toLowerCase() === companyName.toLowerCase()
-    );
+  const existingCompany = companies.find(
+    company => company.name.toLowerCase() === companyName.toLowerCase()
+  );
 
-    const supabase = createClient();
+  const supabase = createClient();
 
-    let companyId = existingCompany?.id;
-    let createdCompany = null;
+  let companyId = existingCompany?.id;
 
-    if (!companyId) {
-      const { data, error } = await supabase
-        .from("companies")
-        .insert({ name: companyName })
-        .select()
-        .single();
+  if (!companyId) {
+    const { data, error } = await supabase
+      .from("companies")
+      .insert({ name: companyName })
+      .select()
+      .single();
 
-      if (error) {
-        toast.add({ title: "Failed to add company", description: error.message, type: "error" });
-        setIsSubmitting(false);
-        return;
-      }
-
-      companyId = data.id;
-      createdCompany = data;
-    }
-
-    const { error: reviewError } = await supabase
-      .from("company_reviews")
-      .insert({ company_id: companyId, text: review });
-
-    if (reviewError) {
-      toast.add({ title: "Failed to add review", description: reviewError.message, type: "error" });
+    if (error) {
+      toast.add({ title: "Failed to add company", description: error.message, type: "error" });
       setIsSubmitting(false);
       return;
     }
 
-    if (existingCompany) {
-      setCompanies(companies.map(company =>
-        company.id === existingCompany.id
-          ? { ...company, company_reviews: [{ count: company.company_reviews[0].count + 1 }] }
-          : company
-      ));
-    } else {
-      setCompanies([...companies, { ...createdCompany, company_reviews: [{ count: 1 }] }]);
-    }
-
-    setIsSubmitting(false);
-    setIsOpen(false);
+    companyId = data.id;
+    setCompanies(prev => [...prev, { ...data, company_reviews: [{ count: 0 }] }]);
   }
+
+  const { error: reviewError } = await supabase
+    .from("company_reviews")
+    .insert({ company_id: companyId, text: review });
+
+  if (reviewError) {
+    toast.add({ title: "Failed to add review", description: reviewError.message, type: "error" });
+    setIsSubmitting(false);
+    return;
+  }
+
+  setCompanies(prev => prev.map(company =>
+    company.id === companyId
+      ? { ...company, company_reviews: [{ count: company.company_reviews[0].count + 1 }] }
+      : company
+  ));
+
+  setIsSubmitting(false);
+  setIsOpen(false);
+}
 
   return (
     <Dialog

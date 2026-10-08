@@ -55,11 +55,18 @@ export function CompanyDialog({ company, open, onOpenChange, tab }: CompanyDialo
 
       setCurrentUserId(user?.id ?? null);
 
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from('company_reviews')
         .select()
         .eq('company_id', currentCompany.id);
-      setReviews(data ?? []);
+
+      if (error) {
+        toast.add({ title: "Failed to load reviews", description: error.message, type: "error" });
+        setIsLoading(false);
+        return;
+      }
+
+      setReviews(data);
       setIsLoading(false);
     }
 

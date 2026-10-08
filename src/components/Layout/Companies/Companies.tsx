@@ -72,7 +72,7 @@ export function Companies() {
               <FlagTriangleRight
                 aria-hidden="true"
                 className="group-hover:text-destructive transition-colors duration-300 group-data-active:text-destructive" />
-              <span className="group-hover:text-accent-cyan dark:drop-shadow-[0_0_10px_rgba(34,211,238,0.8)] transition-colors duration-300 group-data-active:text-accent-cyan">Red Flag</span>
+              <span className="group-hover:text-accent-cyan dark:drop-shadow-[0_0_10px_rgba(34,211,238,0.8)] transition-colors duration-300 group-data-active:text-accent-cyan">RedFlag</span>
             </TabsTrigger>
           </TabsList>
           {activeTab === "red_flag" && <RedFlagForm />}

@@ -74,11 +74,18 @@ export function Board() {
     }
 
     const overId = event.over.id;
+    const currentCard = applications.find(app => app.id === event.active.id);
+
+    if (currentCard?.status === overId) {
+      return;
+    }
 
     updateApplicationStatus(event.active.id as number, overId as ApplicationStatus, applications, setApplications)
 
     setActiveDragCard(null);
   }
+
+
 
 
   function handleDragStart(event: DragStartEvent) {

@@ -41,38 +41,40 @@ export function Sidebar({ nickname, isLoggedIn }: SidebarProps) {
         priority
         className="dark:hidden self-center pt-4"
       />
-      <ul className="text-text-2 p-6 flex flex-col gap-6">
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          return (
-            <li key={item.href}>
-              <SidebarNavItem
-                href={item.href}
-                label={item.label}
-                icon={<Icon className="size-5" />}
-              />
-            </li>
-          );
-        })}
-      </ul>
+      <nav aria-label="Main navigation">
+        <ul className="text-text-2 p-6 flex flex-col gap-6">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <li key={item.href}>
+                <SidebarNavItem
+                  href={item.href}
+                  label={item.label}
+                  icon={<Icon className="size-5" />}
+                />
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
       {isLoggedIn && (
-      <div className="mt-auto mx-6 pt-5 border-t border-edge flex items-center justify-between gap-3">
-        <p className="min-w-0 truncate text-contrast/70">
-          Hello, <span className="font-semibold text-accent-cyan">{nickname ?? "User"} !</span>
-        </p>
-        <form action={signOut}>
-          <Button
-            type="submit"
-            variant="ghost"
-            size="sm"
-            className="shrink-0 text-contrast/70 cursor-pointer hover:bg-glass/10 hover:text-accent-cyan"
-          >
-            <LogOut aria-hidden="true" />
-            Log out
-          </Button>
-        </form>
-      </div>
-          )}
+        <div className="mt-auto mx-6 pt-5 border-t border-edge flex items-center justify-between gap-3">
+          <p className="min-w-0 truncate text-contrast/70">
+            Hello, <span className="font-semibold text-accent-cyan">{nickname ?? "User"}!</span>
+          </p>
+          <form action={signOut}>
+            <Button
+              type="submit"
+              variant="ghost"
+              size="sm"
+              className="shrink-0 text-contrast/70 cursor-pointer hover:bg-glass/10 hover:text-accent-cyan"
+            >
+              <LogOut aria-hidden="true" />
+              Log out
+            </Button>
+          </form>
+        </div>
+      )}
     </aside>
   );
 }

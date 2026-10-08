@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 interface CompanyLogoProps {
-  website: string;
+  website: string | null;
   name: string;
 }
 

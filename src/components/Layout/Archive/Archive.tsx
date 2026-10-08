@@ -11,7 +11,7 @@ export default function Archive() {
   const { searchQuery } = useSearch();
   const rejectedApplications = applications
     .filter(app => app.status === "rejected")
-    .filter(app => app.company.toLowerCase().includes(searchQuery.toLowerCase()));
+    .filter(app => app.company.toLowerCase().includes(searchQuery.toLowerCase().trim()));
 
   return (
     <div className="flex flex-wrap content-start gap-4 px-4 h-full min-h-0 overflow-y-auto hidden-scrollbar">
@@ -27,7 +27,8 @@ export default function Archive() {
           />
           <Button
             variant="glass"
-            className="w-26 p-4 absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all duration-300"
+            aria-label={`Move ${rejApp.company} back to interview`}
+            className="w-26 p-4 absolute top-2 right-2 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-all duration-300"
             onClick={() => updateApplicationStatus(rejApp.id, "interview", applications, setApplications)}
           >
             To Interview
@@ -35,5 +36,5 @@ export default function Archive() {
         </div>
       ))}
     </div>
-  )
+  );
 }

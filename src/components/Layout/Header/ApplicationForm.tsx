@@ -40,7 +40,7 @@ const items = [
 
 export function ApplicationForm() {
 
-  const [level, setLevel] = useState<"Junior" | "Middle" | "Senior" | null>(null);
+  const [level, setLevel] = useState<"junior" | "middle" | "senior" | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { applications, setApplications } = useApplications();

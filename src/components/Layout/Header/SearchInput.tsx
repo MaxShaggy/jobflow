@@ -18,6 +18,9 @@ export function SearchInput() {
       </InputGroupAddon>
       <InputGroupAddon align="inline-end" className="text-contrast/50 hover:text-accent-cyan transition-colors duration-300">
         <button
+          aria-label="Clear search"
+          type="button"
+          tabIndex={searchQuery ? 0 : -1}
           onClick={() => setSearchQuery('')}
           className={`transition-opacity duration-300 ${searchQuery !== "" ? "opacity-100" : "opacity-0 pointer-events-none"}`}
         >
@@ -25,6 +28,7 @@ export function SearchInput() {
         </button>
       </InputGroupAddon>
       <InputGroupInput
+        aria-label="Search"
         value={searchQuery}
         onChange={(event) => setSearchQuery(event.target.value.trimStart().replace(/\s+/g, ' '))}
         placeholder={pathname === "/archive" ? "Search in Archive..." : "Search..."}
